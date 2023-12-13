@@ -71,10 +71,10 @@ app.post("/addbook", async (req, res) => {
     const dataBook = {
         title: req.body.booktitle,
         author: req.body.author,
-         review: req.body.review
+        review: req.body.review
     }
 
-    //check if user already exists in db
+    //check if book already exists in db
     const existingBook = await bookcollection.findOne({title: dataBook.title});
     if(existingBook) {
         res.send("Book title already exists. Please choose a different title.");
@@ -85,6 +85,18 @@ app.post("/addbook", async (req, res) => {
     }
 
 });
+
+//Show Books
+app.get("/books", async (req, res) => {
+    const existingBook = await bookcollection.findOne({});
+    res.send(existingBook);
+    res.render("books");
+
+});
+
+
+
+
 
 const port = 5000;
 app.listen(port, () => {
