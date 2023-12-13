@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("path");
 const bcrypt = require("bcrypt");
-const collection = require("./config");
+const {collection, bookcollection} = require("./config");
+
 
 const app = express();
 //convert data into json format
@@ -63,6 +64,28 @@ app.post("/login", async (req, res) => {
         res.send("wrong details");
     }
 })
+
+//Insert Book
+app.post("/addbook", async (req, res) => {
+    
+    const dataBook = {
+        title: req.body.booktitle,
+        author: req.body.author,
+         review: req.body.review
+    }
+
+    //check if user already exists in db
+    const existingBook = await bookcollection.findOne({title: dataBook.title});
+    if(existingBook) {
+        res.send("Book title already exists. Please choose a different title.");
+    }else {
+        
+        const admindata = await bookcollection.insertMany(dataBook);
+        console.log(admindata);
+    }
+
+});
+
 const port = 5000;
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);

@@ -23,4 +23,27 @@ const LoginSchema = new mongoose.Schema({
 //model
 const collection = new mongoose.model("users", LoginSchema);
 
-module.exports = collection;
+//module.exports = collection;
+
+
+const BookSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    review: {
+        type: String,
+        required: true
+    }
+});
+
+const bookcollection = new mongoose.model("books", BookSchema);
+
+module.exports = {
+    collection: collection,
+    bookcollection: bookcollection,
+};
