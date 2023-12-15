@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test CRUD</title>
+
+    <link rel="stylesheet" href="/semantic.min.css">
+    <link rel="stylesheet" href="/public/stylessCrud.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="ui menu">
+            <div class="ui container">
+                <div class="header item">
+                    Home
+                  </div>
+                  <a class="item">
+                    Blog
+                  </a>
+                  <a class="item">
+                    Contact
+                  </a>
+                  <a class="item">
+                    About
+                  </a>
+                </div>
+            </div>
+            
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+    <div class="ui container">
+        <form action="/test/add" class="ui form" method="post">
+            <div class="ui three fields">
+                <div class="field">
+                    <label for="title" class="ui header blue">Enter book title</label>
+                    <input type="text" name="title">
+                </div>
+                <div class="field">
+                    <label for="author" class="ui header blue">Enter book author</label>
+                    <input type="text" name="author">
+                </div>
+                <div class="field">
+                    <label for="review" class="ui header blue">Enter book review</label>
+                    <input type="text" name="review">
+                </div>
+            </div>
+            <div class="ui fluid field">
+                <input type="submit" value="Save" class="ui button blue fluid">
+            </div>
+        </form>
+
+
+        <br>
+        <br>
+        <table class="ui blue table">
+            <thead>
+                <th>Book title</th>
+                <th>Author</th>
+                <th>Review</th>
+            </thead>
+            <tbody>
+                <td>Morometii</td>
+                <td>Marin Preda</td>
+                <td>Interesanta carte</td>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="/semantic.min.js"></script>
+</body>
+</html>
+
+

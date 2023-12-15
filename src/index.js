@@ -1,17 +1,26 @@
 const express = require("express");
+const testRoute = require('./test');
 const path = require("path");
 const bcrypt = require("bcrypt");
+const bodyParser = require('body-parser')
 const {collection, bookcollection} = require("./config");
-
 
 const app = express();
 //convert data into json format
 app.use(express.json());
 
 app.use(express.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"))
+
+
+
+app.use('/test', testRoute);
 
 app.get("/", (req, res) => {
     res.render("login");
@@ -89,11 +98,11 @@ app.post("/addbook", async (req, res) => {
 //Show Books
 app.get("/books", async (req, res) => {
     const existingBook = await bookcollection.findOne({});
-    res.send(existingBook);
+    
     res.render("books");
+    //res.send(existingBook);
 
 });
-
 
 
 
