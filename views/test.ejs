@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="ui fluid field">
-                <input type="submit" value="Save" class="ui button blue fluid">
+                <input type="submit" value="save" class="ui button blue fluid">
             </div>
         </form>
 
@@ -59,14 +59,24 @@
         <br>
         <table class="ui blue table">
             <thead>
-                <th>Book title</th>
-                <th>Author</th>
-                <th>Review</th>
+                <tr>
+                    <th>Book title</th>
+                    <th>Author</th>
+                    <th>Review</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
             </thead>
             <tbody>
-                <td>Morometii</td>
-                <td>Marin Preda</td>
-                <td>Interesanta carte</td>
+                <% books.forEach((book) => { %>
+                    <tr>
+                        <td><%- book.title %></td>
+                        <td><%- book.author %></td>
+                        <td><%- book.review %></td>
+                        <td><a class="ui blue button"><i class="edit outline icon"></i></a></td>
+                        <td><a href="" class="ui red button"><i class="minus icon"></i></a></td>
+                    </tr>
+                <% }); %>
             </tbody>
         </table>
     </div>
