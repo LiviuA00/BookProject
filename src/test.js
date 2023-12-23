@@ -122,4 +122,26 @@ router.post("/edit/:id", async (req, res, next) => {
     }
 });
 
+//route to delete them
+router.get("/delete/:id", async (req, res, next) => {
+    try {
+        const bookId = req.params.id;
+
+        // Utilizează findByIdAndDelete cu promisiuni
+        const deletedBook = await bookcollection.findByIdAndDelete(bookId);
+
+        // Verifică dacă a fost găsit și șters un document
+        if (deletedBook) {
+            console.log("Deleted successfully.");
+            res.redirect("/test");
+        } else {
+            console.log("Can't delete data");
+            res.status(404).send("Document not found");
+        }
+    } catch (err) {
+        console.error('Eroare la ștergerea cărții:', err);
+        res.status(500).send('Eroare internă a serverului');
+    }
+});
+
 module.exports = router;

@@ -9,25 +9,7 @@
     <link rel="stylesheet" href="/public/stylessCrud.css">
 </head>
 <body>
-    <div class="wrapper">
-        <div class="ui menu">
-            <div class="ui container">
-                <div class="header item">
-                    Home
-                  </div>
-                  <a class="item">
-                    Blog
-                  </a>
-                  <a class="item">
-                    Contact
-                  </a>
-                  <a class="item">
-                    About
-                  </a>
-                </div>
-            </div>
-            
-    </div>
+   
 
 
     <br>
@@ -75,7 +57,7 @@
                         <td><%- book.review %></td>
                         <td><a class="ui blue button" href="/test/edit/<%= book._id%>"><i class="edit outline icon"></i></a></td>
                         <!-- <%= book._id %> -->
-                        <td><a href="" class="ui red button"><i class="minus icon"></i></a></td>
+                        <td><a class="ui red button" href="/test/delete/<%= book._id%>"><i class="minus icon"></i></a></td>
                     </tr>
                 <% }); %>
             </tbody>
