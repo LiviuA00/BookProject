@@ -61,4 +61,65 @@ router.post('/add', async (req, res, next) => {
 
 });
 
+//route to show update element
+router.get('/edit/:id', async (req, res, next) => {
+    //console.log(req.params.id);
+    
+    // bookcollection.findOneAndUpdate({_id: req.params.id}, req.body, {new:true}, (err, docs) =>{
+    //     if(err) {
+    //         console.log("Can't retrive data and edit");
+    //     }else{
+    //         res.render("edit", {book: docs});
+    //     }
+    // });  
+        
+    try {
+        const bookId = req.params.id;
+        
+        // Utilizează findOneAndUpdate cu promisiuni
+        const updatedBook = await bookcollection.findOneAndUpdate(
+            { _id: bookId },
+            req.body,
+            { new: true }
+        );
+
+        // Verifică dacă a fost găsit și actualizat un document
+        if (updatedBook) {
+            res.render("edit", { book: updatedBook });
+        } else {
+            console.log("Can't retrieve data and edit");
+            res.status(404).send("Document not found");
+        }
+    } catch (err) {
+        console.error('Eroare la editarea cărții:', err);
+        res.status(500).send('Eroare internă a serverului');
+    }
+
+});
+
+//route to update element
+router.post("/edit/:id", async (req, res, next) => {
+    try {
+        const bookId = req.params.id;
+        
+        // Utilizează findByIdAndUpdate cu promisiuni
+        const updatedBook = await bookcollection.findByIdAndUpdate(
+            bookId,
+            req.body,
+            { new: true }
+        );
+
+        // Verifică dacă a fost găsit și actualizat un document
+        if (updatedBook) {
+            res.redirect("/test");
+        } else {
+            console.log("Can't update data");
+            res.status(404).send("Document not found");
+        }
+    } catch (err) {
+        console.error('Eroare la actualizarea cărții:', err);
+        res.status(500).send('Eroare internă a serverului');
+    }
+});
+
 module.exports = router;

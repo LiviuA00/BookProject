@@ -34,52 +34,31 @@
     <br>
     <br>
     <div class="ui container">
-        <form action="/test/add" class="ui form" method="post">
+        <form id="form" action="/test/edit/<%- book._id %>" class="ui form" method="post">
+            
             <div class="ui three fields">
                 <div class="field">
                     <label for="title" class="ui header blue">Enter book title</label>
-                    <input type="text" name="title">
+                    <input type="text" name="title" placeholder="Enter book title" value="<%- book.title%>" id="title">
                 </div>
                 <div class="field">
                     <label for="author" class="ui header blue">Enter book author</label>
-                    <input type="text" name="author">
+                    <input type="text" name="author" placeholder="Enter book author" value="<%- book.author%>" id="author">
                 </div>
                 <div class="field">
                     <label for="review" class="ui header blue">Enter book review</label>
-                    <input type="text" name="review">
+                    <input type="text" name="review" placeholder="Enter book review" value="<%- book.review%>" id="review">
                 </div>
             </div>
             <div class="ui fluid field">
-                <input type="submit" value="save" class="ui button blue fluid">
+                <button type="submit" class="ui button fluid blue">Save</button>   
             </div>
         </form>
 
 
         <br>
         <br>
-        <table class="ui blue table">
-            <thead>
-                <tr>
-                    <th>Book title</th>
-                    <th>Author</th>
-                    <th>Review</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% books.forEach((book) => { %>
-                    <tr>
-                        <td><%- book.title %></td>
-                        <td><%- book.author %></td>
-                        <td><%- book.review %></td>
-                        <td><a class="ui blue button" href="/test/edit/<%= book._id%>"><i class="edit outline icon"></i></a></td>
-                        <!-- <%= book._id %> -->
-                        <td><a href="" class="ui red button"><i class="minus icon"></i></a></td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
+
     </div>
 
     <script src="/semantic.min.js"></script>
