@@ -144,4 +144,18 @@ router.get("/delete/:id", async (req, res, next) => {
     }
 });
 
+const verificaPermisiuni = (permisiuneNecesara) => {
+    return async (req, res, next) => {
+        const utilizator = req.user;
+        
+        if (utilizator && utilizator.rol === permisiuneNecesara) {
+            next(); // Permisiuni acordate, permite accesul la ruta următoare
+        } else {
+            res.status(403).json({ mesaj: 'Acces interzis' });
+        }
+    };
+};
+
+module.exports = verificaPermisiuni;
+
 module.exports = router;

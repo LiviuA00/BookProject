@@ -4,6 +4,7 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser')
 const {collection, bookcollection} = require("./config");
+const session = require('express-session');//nou
 
 const app = express();
 //convert data into json format
@@ -30,6 +31,15 @@ app.get("/signup", (req, res) => {
     res.render("signup");
 });
 
+//admin/user
+app.use(
+    session({
+      secret: 'secretul-tau',
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
+
 //Register User
 app.post("/signup", async (req, res) => {
 
@@ -51,9 +61,22 @@ app.post("/signup", async (req, res) => {
 
         const userdata = await collection.insertMany(data);
         console.log(userdata);
+        res.render("login");
     }
 
 });
+
+const verificaPermisiuni = (permisiuneNecesara) => {
+    return async (req, res, next) => {
+        const utilizator = req.session.user;
+        console.log(utilizator);
+        if (utilizator && utilizator.role === permisiuneNecesara) {
+            next(); // Permisiuni acordate, permite accesul la ruta următoare
+        } else {
+            res.status(403).json({ mesaj: 'Acces interzis' });
+        }
+    };
+};
 
 //Login user
 app.post("/login", async (req, res) => {
@@ -64,15 +87,30 @@ app.post("/login", async (req, res) => {
         }
         //compare the hash password from the database with the plain text
         const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
-        if(isPasswordMatch) {
-            res.render("home");
-        }else {
-            req.send("wrong password");
+        // if(isPasswordMatch) {
+        //     res.render("home");
+        // }else {
+        //     req.send("wrong password");
+        // }
+        if (isPasswordMatch) {
+            // Verifică dacă utilizatorul este admin și setează informațiile în sesiune
+            if (check.role === 'admin') {
+                req.session.user = {
+                    name: check.name,
+                    role: check.role
+                };
+                res.render("home");
+            } else {
+                res.status(403).json({ mesaj: 'Acces interzis' });
+            }
+        } else {
+            res.send("wrong password");
         }
     }catch {
         res.send("wrong details");
     }
 })
+
 
 //Insert Book
 app.post("/addbook", async (req, res) => {
@@ -111,3 +149,4 @@ const port = 5000;
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 })
+
