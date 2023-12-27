@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test User</title>
+
+    <link rel="stylesheet" href="/semantic.min.css">
+    <link rel="stylesheet" href="/public/stylessCrud.css">
+</head>
+<body>
+   
+
+
+    <br>
+    <br>
+    <br>
+    <div class="ui container">
+       
+
+        <br>
+        <br>
+        <table class="ui blue table">
+            <thead>
+                <tr>
+                    <th>Book title</th>
+                    <th>Author</th>
+                    <th>Review</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <% books.forEach((book) => { %>
+                    <tr>
+                        <td><%- book.title %></td>
+                        <td><%- book.author %></td>
+                        <td><%- book.review %></td>
+                        
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="/semantic.min.js"></script>
+</body>
+</html>
+
+

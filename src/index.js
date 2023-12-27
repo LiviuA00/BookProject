@@ -1,6 +1,7 @@
 const express = require("express");
 const testRoute = require('./test');
 const path = require("path");
+const router = express.Router();
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser')
 const {collection, bookcollection} = require("./config");
@@ -24,7 +25,7 @@ app.use(express.static("public"))
 app.use('/test', testRoute);
 
 app.get("/", (req, res) => {
-    res.render("login");
+    res.render("login");  
 });
 
 app.get("/signup", (req, res) => {
@@ -62,6 +63,7 @@ app.post("/signup", async (req, res) => {
         const userdata = await collection.insertMany(data);
         console.log(userdata);
         res.render("login");
+        
     }
 
 });
@@ -78,7 +80,7 @@ const verificaPermisiuni = (permisiuneNecesara) => {
     };
 };
 
-//Login user
+//Login admin / user
 app.post("/login", async (req, res) => {
     try{
         const check = await collection.findOne({name: req.body.username});
@@ -99,8 +101,32 @@ app.post("/login", async (req, res) => {
                     name: check.name,
                     role: check.role
                 };
-                res.render("home");
-            } else {
+                bookcollection.find()
+                    .then(docs => {
+                         res.render("test", { books: docs });
+                    })
+                    .catch(err => {
+                        console.log("Something went wrong with MongoDB (can't retrieve)", err);
+                        //res.status(500).send("Internal Server Error");
+                    });
+                //res.render("test");
+                // res.render("home");
+                //home
+            }else  if (check.role === 'utilizator') {
+                req.session.user = {
+                    name: check.name,
+                    role: check.role
+                };
+                bookcollection.find()
+                    .then(docs => {
+                         res.render("testuser", { books: docs });
+                    })
+                    .catch(err => {
+                        console.log("Something went wrong with MongoDB (can't retrieve)", err);
+                        //res.status(500).send("Internal Server Error");
+                    });
+            }
+            else {
                 res.status(403).json({ mesaj: 'Acces interzis' });
             }
         } else {
@@ -110,6 +136,8 @@ app.post("/login", async (req, res) => {
         res.send("wrong details");
     }
 })
+
+
 
 
 //Insert Book
